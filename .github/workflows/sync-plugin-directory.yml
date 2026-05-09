@@ -20,27 +20,9 @@ jobs:
         with:
           python-version: "3.12"
 
-      - name: Fetch repository list from GitHub
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          OWNER="${{ github.repository_owner }}"
-          # Detect whether the owner is an organisation or a personal account.
-          OWNER_TYPE=$(gh api "/users/$OWNER" --jq '.type')
-          if [ "$OWNER_TYPE" = "Organization" ]; then
-            ENDPOINT="/orgs/$OWNER/repos?type=public&per_page=100"
-          else
-            ENDPOINT="/users/$OWNER/repos?type=public&per_page=100"
-          fi
-          # --paginate fetches every page; jq merges the per-page arrays into one.
-          gh api --paginate "$ENDPOINT" \
-            -H "Accept: application/vnd.github+json" | \
-            jq -s 'add // [] | unique_by(.id)' > /tmp/repos.json
-
       - name: Generate plugin directory files
         env:
-          PLUGIN_OWNER: ${{ github.repository_owner }}
-          PLUGIN_REPOSITORIES_FILE: /tmp/repos.json
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: python scripts/sync_plugin_directory.py
 
       - name: Commit and push updates

@@ -1,4 +1,10 @@
 #!/usr/bin/env python3
+"""Sync plugin directory from an explicit list of GitHub repository URLs.
+
+Reads plugin-list.txt (one GitHub URL per line, blank lines and # comments ignored),
+fetches metadata for each repo from the GitHub API, and writes plugin-directory/plugins.json
+and plugin-directory/plugins.csv.
+"""
 from __future__ import annotations
 
 import csv
@@ -9,16 +15,18 @@ from typing import Any
 from urllib.error import HTTPError
 from urllib.request import Request, urlopen
 
+# The list of plugin repos lives alongside this script's sibling file in the repo root.
+PLUGIN_LIST_FILE = Path(__file__).parent.parent / "plugin-list.txt"
 
 OUTPUT_DIR = Path("plugin-directory")
 JSON_FILE = OUTPUT_DIR / "plugins.json"
 CSV_FILE = OUTPUT_DIR / "plugins.csv"
-PLUGIN_PREFIX = os.getenv("PLUGIN_PREFIX", "lyndrix-plugin-")
-EXCLUDED_REPOSITORIES = set(
-    value.strip()
-    for value in os.getenv("EXCLUDED_REPOSITORIES", "lyndrix-plugin-collection").split(",")
-    if value.strip()
-)
+
+# Prefix stripped from the repo name to produce a human-friendly slug.
+# e.g. "lyndrix-discord-notifier" -> slug "discord-notifier"
+SLUG_PREFIX = os.getenv("SLUG_PREFIX", "lyndrix-")
+
+GITHUB_API_BASE = "https://api.github.com"
 
 
 def github_api_get(url: str, token: str | None) -> Any:
@@ -30,71 +38,42 @@ def github_api_get(url: str, token: str | None) -> Any:
         headers["Authorization"] = f"Bearer {token}"
 
     request = Request(url, headers=headers)
-    with urlopen(request) as response:  # nosec B310 - URL is fixed to GitHub API calls in this script
+    with urlopen(request) as response:  # nosec B310 - URL is validated to the GitHub API domain
         return json.load(response)
 
 
-def get_owner_repositories_url(owner: str, owner_type: str, page: int) -> str:
-    if owner_type == "Organization":
-        return f"https://api.github.com/orgs/{owner}/repos?type=public&per_page=100&page={page}"
-    return f"https://api.github.com/users/{owner}/repos?type=public&per_page=100&page={page}"
+def read_plugin_urls() -> list[str]:
+    """Return non-empty, non-comment lines from plugin-list.txt."""
+    if not PLUGIN_LIST_FILE.exists():
+        raise FileNotFoundError(f"Plugin list not found: {PLUGIN_LIST_FILE}")
+
+    urls: list[str] = []
+    for raw in PLUGIN_LIST_FILE.read_text(encoding="utf-8").splitlines():
+        line = raw.strip()
+        if line and not line.startswith("#"):
+            urls.append(line)
+    return urls
 
 
-def list_plugin_repositories(owner: str, token: str | None) -> list[dict[str, Any]]:
-    repositories: list[dict[str, Any]] = []
-    page = 1
-    owner_data = github_api_get(f"https://api.github.com/users/{owner}", token)
-    owner_type = owner_data.get("type", "User")
-
-    while True:
-        url = get_owner_repositories_url(owner, owner_type, page)
-        data = github_api_get(url, token)
-        if not isinstance(data, list):
-            raise RuntimeError("Unexpected GitHub API response: expected a list of repositories.")
-        if len(data) == 0:
-            break
-
-        repositories.extend(data)
-        page += 1
-
-    return filter_plugin_repositories(repositories)
+def parse_github_url(url: str) -> tuple[str, str]:
+    """Extract (owner, repo) from a GitHub URL such as https://github.com/owner/repo."""
+    parts = url.rstrip("/").split("/")
+    if len(parts) < 2:
+        raise ValueError(f"Cannot parse GitHub URL: {url!r}")
+    return parts[-2], parts[-1]
 
 
-def filter_plugin_repositories(repositories: list[dict[str, Any]]) -> list[dict[str, Any]]:
-    filtered: list[dict[str, Any]] = []
-    for repo in repositories:
-        repo_name = repo.get("name", "")
-        if not repo_name.startswith(PLUGIN_PREFIX):
-            continue
-        if repo_name in EXCLUDED_REPOSITORIES:
-            continue
-        filtered.append(repo)
-
-    filtered.sort(key=lambda repo: repo["full_name"].lower())
-    return filtered
-
-
-def load_repositories_from_file(path: str) -> list[dict[str, Any]]:
-    content = Path(path).read_text(encoding="utf-8")
-    data = json.loads(content)
-    if not isinstance(data, list):
-        raise RuntimeError("PLUGIN_REPOSITORIES_FILE must contain a JSON array of repositories.")
-    return filter_plugin_repositories(data)
-
-
-def get_repositories(owner: str, token: str | None) -> list[dict[str, Any]]:
-    repositories_file = os.getenv("PLUGIN_REPOSITORIES_FILE")
-    if repositories_file:
-        return load_repositories_from_file(repositories_file)
-
-    return list_plugin_repositories(owner, token)
+def fetch_repo_metadata(owner: str, repo: str, token: str | None) -> dict[str, Any]:
+    url = f"{GITHUB_API_BASE}/repos/{owner}/{repo}"
+    return github_api_get(url, token)
 
 
 def to_plugin_entry(repo: dict[str, Any]) -> dict[str, Any]:
-    slug = repo["name"][len(PLUGIN_PREFIX) :]
+    name: str = repo["name"]
+    slug = name[len(SLUG_PREFIX):] if name.startswith(SLUG_PREFIX) else name
     return {
         "slug": slug,
-        "name": repo["name"],
+        "name": name,
         "full_name": repo["full_name"],
         "description": repo.get("description"),
         "html_url": repo["html_url"],
@@ -111,12 +90,11 @@ def to_plugin_entry(repo: dict[str, Any]) -> dict[str, Any]:
     }
 
 
-def write_outputs(owner: str, plugins: list[dict[str, Any]]) -> None:
+def write_outputs(plugins: list[dict[str, Any]]) -> None:
     OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
 
     payload = {
-        "owner": owner,
-        "plugin_prefix": PLUGIN_PREFIX,
+        "slug_prefix": SLUG_PREFIX,
         "plugin_count": len(plugins),
         "plugins": plugins,
     }
@@ -152,17 +130,40 @@ def write_outputs(owner: str, plugins: list[dict[str, Any]]) -> None:
 
 
 def main() -> int:
-    owner = os.getenv("PLUGIN_OWNER", "marvin1309")
     token = os.getenv("GITHUB_TOKEN")
+    urls = read_plugin_urls()
+    print(f"Found {len(urls)} plugin(s) in {PLUGIN_LIST_FILE}")
 
-    try:
-        repositories = get_repositories(owner, token)
-    except HTTPError as exc:
-        message = exc.read().decode("utf-8", errors="replace")
-        raise RuntimeError(f"GitHub API request failed ({exc.code}): {message}") from exc
+    plugins: list[dict[str, Any]] = []
+    errors: list[str] = []
 
-    plugins = [to_plugin_entry(repo) for repo in repositories]
-    write_outputs(owner, plugins)
+    for url in urls:
+        try:
+            owner, repo = parse_github_url(url)
+        except ValueError as exc:
+            print(f"  SKIP  {url} — {exc}")
+            errors.append(url)
+            continue
+
+        try:
+            metadata = fetch_repo_metadata(owner, repo, token)
+        except HTTPError as exc:
+            message = exc.read().decode("utf-8", errors="replace")
+            print(f"  ERROR {url} — GitHub API {exc.code}: {message}")
+            errors.append(url)
+            continue
+
+        entry = to_plugin_entry(metadata)
+        plugins.append(entry)
+        print(f"  OK    {entry['full_name']}  ({entry['slug']})")
+
+    plugins.sort(key=lambda p: p["full_name"].lower())
+    write_outputs(plugins)
+
+    print(f"\nWrote {len(plugins)} plugin(s) to {JSON_FILE} and {CSV_FILE}")
+    if errors:
+        print(f"WARNING: {len(errors)} URL(s) failed: {errors}")
+        return 1
     return 0
 
 
