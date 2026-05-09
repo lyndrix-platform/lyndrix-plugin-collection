@@ -34,12 +34,20 @@ def github_api_get(url: str, token: str | None) -> Any:
         return json.load(response)
 
 
+def get_owner_repositories_url(owner: str, owner_type: str, page: int) -> str:
+    if owner_type == "Organization":
+        return f"https://api.github.com/orgs/{owner}/repos?type=public&per_page=100&page={page}&sort=full_name"
+    return f"https://api.github.com/users/{owner}/repos?type=public&per_page=100&page={page}&sort=full_name"
+
+
 def list_plugin_repositories(owner: str, token: str | None) -> list[dict[str, Any]]:
     repositories: list[dict[str, Any]] = []
     page = 1
+    owner_data = github_api_get(f"https://api.github.com/users/{owner}", token)
+    owner_type = owner_data.get("type", "User")
 
     while True:
-        url = f"https://api.github.com/users/{owner}/repos?type=public&per_page=100&page={page}&sort=full_name"
+        url = get_owner_repositories_url(owner, owner_type, page)
         data = github_api_get(url, token)
         if not isinstance(data, list):
             raise RuntimeError("Unexpected GitHub API response: expected a list of repositories.")
@@ -136,8 +144,10 @@ def write_outputs(owner: str, plugins: list[dict[str, Any]]) -> None:
         writer = csv.DictWriter(fp, fieldnames=fieldnames)
         writer.writeheader()
         for plugin in plugins:
-            row = {field: plugin.get(field) for field in fieldnames}
-            row["topics"] = ";".join(plugin.get("topics", []))
+            row = {
+                field: (";".join(plugin.get("topics", [])) if field == "topics" else plugin.get(field))
+                for field in fieldnames
+            }
             writer.writerow(row)
 
 
