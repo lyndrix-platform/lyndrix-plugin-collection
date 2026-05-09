@@ -36,8 +36,8 @@ def github_api_get(url: str, token: str | None) -> Any:
 
 def get_owner_repositories_url(owner: str, owner_type: str, page: int) -> str:
     if owner_type == "Organization":
-        return f"https://api.github.com/orgs/{owner}/repos?type=public&per_page=100&page={page}&sort=full_name"
-    return f"https://api.github.com/users/{owner}/repos?type=public&per_page=100&page={page}&sort=full_name"
+        return f"https://api.github.com/orgs/{owner}/repos?type=public&per_page=100&page={page}"
+    return f"https://api.github.com/users/{owner}/repos?type=public&per_page=100&page={page}"
 
 
 def list_plugin_repositories(owner: str, token: str | None) -> list[dict[str, Any]]:

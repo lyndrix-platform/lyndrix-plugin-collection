@@ -35,7 +35,7 @@ jobs:
           # --paginate fetches every page; jq merges the per-page arrays into one.
           gh api --paginate "$ENDPOINT" \
             -H "Accept: application/vnd.github+json" | \
-            jq -s 'add // []' > /tmp/repos.json
+            jq -s 'add // [] | unique_by(.id)' > /tmp/repos.json
 
       - name: Generate plugin directory files
         env:
