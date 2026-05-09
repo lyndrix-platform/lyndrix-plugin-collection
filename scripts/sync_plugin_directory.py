@@ -41,7 +41,9 @@ def list_plugin_repositories(owner: str, token: str | None) -> list[dict[str, An
     while True:
         url = f"https://api.github.com/users/{owner}/repos?type=public&per_page=100&page={page}&sort=full_name"
         data = github_api_get(url, token)
-        if not data:
+        if not isinstance(data, list):
+            raise RuntimeError("Unexpected GitHub API response: expected a list of repositories.")
+        if len(data) == 0:
             break
 
         repositories.extend(data)
@@ -121,6 +123,7 @@ def write_outputs(owner: str, plugins: list[dict[str, Any]]) -> None:
         "html_url",
         "clone_url",
         "default_branch",
+        "topics",
         "stargazers_count",
         "forks_count",
         "open_issues_count",
@@ -133,7 +136,9 @@ def write_outputs(owner: str, plugins: list[dict[str, Any]]) -> None:
         writer = csv.DictWriter(fp, fieldnames=fieldnames)
         writer.writeheader()
         for plugin in plugins:
-            writer.writerow({field: plugin.get(field) for field in fieldnames})
+            row = {field: plugin.get(field) for field in fieldnames}
+            row["topics"] = ";".join(plugin.get("topics", []))
+            writer.writerow(row)
 
 
 def main() -> int:
