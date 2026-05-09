@@ -1,0 +1,57 @@
+name: Sync plugin directory
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "0 2 * * *"
+
+permissions:
+  contents: write
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Fetch repository list from GitHub
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          OWNER="${{ github.repository_owner }}"
+          # Detect whether the owner is an organisation or a personal account.
+          OWNER_TYPE=$(gh api "/users/$OWNER" --jq '.type')
+          if [ "$OWNER_TYPE" = "Organization" ]; then
+            ENDPOINT="/orgs/$OWNER/repos?type=public&per_page=100"
+          else
+            ENDPOINT="/users/$OWNER/repos?type=public&per_page=100"
+          fi
+          # --paginate fetches every page; jq merges the per-page arrays into one.
+          gh api --paginate "$ENDPOINT" \
+            -H "Accept: application/vnd.github+json" | \
+            jq -s 'add // [] | unique_by(.id)' > /tmp/repos.json
+
+      - name: Generate plugin directory files
+        env:
+          PLUGIN_OWNER: ${{ github.repository_owner }}
+          PLUGIN_REPOSITORIES_FILE: /tmp/repos.json
+        run: python scripts/sync_plugin_directory.py
+
+      - name: Commit and push updates
+        run: |
+          if git diff --quiet; then
+            echo "No plugin directory changes detected."
+            exit 0
+          fi
+
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add plugin-directory/plugins.json plugin-directory/plugins.csv
+          git commit -m "chore: refresh plugin directory"
+          git push
