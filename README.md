@@ -1,0 +1,1 @@
+# lyndrix-plugin-collection
