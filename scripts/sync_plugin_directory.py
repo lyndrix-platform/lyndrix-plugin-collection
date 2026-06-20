@@ -10,6 +10,7 @@ from __future__ import annotations
 import csv
 import json
 import os
+import re
 from pathlib import Path
 from typing import Any
 from urllib.error import HTTPError
@@ -68,7 +69,29 @@ def fetch_repo_metadata(owner: str, repo: str, token: str | None) -> dict[str, A
     return github_api_get(url, token)
 
 
-def to_plugin_entry(repo: dict[str, Any]) -> dict[str, Any]:
+def _semver_key(tag: str) -> list[int]:
+    """Sort key from a tag's numeric components (e.g. 'v1.2.0' -> [1, 2, 0])."""
+    return [int(part) for part in re.split(r"[^0-9]+", tag.lstrip("v")) if part]
+
+
+def fetch_repo_tags(owner: str, repo: str, token: str | None) -> list[str]:
+    """Return the repo's tag names, newest first.
+
+    Tags are cached in plugins.json so the app can populate version pickers
+    without hitting the GitHub API on every interaction. Failures are
+    non-fatal — an empty list just means the app falls back to a live lookup.
+    """
+    url = f"{GITHUB_API_BASE}/repos/{owner}/{repo}/tags?per_page=100"
+    try:
+        tags = github_api_get(url, token)
+    except HTTPError as exc:
+        print(f"  WARN  tags for {owner}/{repo} — GitHub API {exc.code}")
+        return []
+    names = [t["name"] for t in tags if isinstance(t, dict) and "name" in t]
+    return sorted(names, key=_semver_key, reverse=True)
+
+
+def to_plugin_entry(repo: dict[str, Any], version_tags: list[str]) -> dict[str, Any]:
     name: str = repo["name"]
     slug = name[len(SLUG_PREFIX):] if name.startswith(SLUG_PREFIX) else name
     return {
@@ -80,6 +103,7 @@ def to_plugin_entry(repo: dict[str, Any]) -> dict[str, Any]:
         "clone_url": repo["clone_url"],
         "default_branch": repo["default_branch"],
         "topics": repo.get("topics", []),
+        "version_tags": version_tags,
         "stargazers_count": repo["stargazers_count"],
         "forks_count": repo["forks_count"],
         "open_issues_count": repo["open_issues_count"],
@@ -110,6 +134,7 @@ def write_outputs(plugins: list[dict[str, Any]]) -> None:
         "clone_url",
         "default_branch",
         "topics",
+        "version_tags",
         "stargazers_count",
         "forks_count",
         "open_issues_count",
@@ -118,12 +143,13 @@ def write_outputs(plugins: list[dict[str, Any]]) -> None:
         "pushed_at",
         "updated_at",
     ]
+    list_fields = {"topics", "version_tags"}
     with CSV_FILE.open("w", encoding="utf-8", newline="") as fp:
         writer = csv.DictWriter(fp, fieldnames=fieldnames)
         writer.writeheader()
         for plugin in plugins:
             row = {
-                field: (";".join(plugin.get("topics", [])) if field == "topics" else plugin.get(field))
+                field: (";".join(plugin.get(field, [])) if field in list_fields else plugin.get(field))
                 for field in fieldnames
             }
             writer.writerow(row)
@@ -153,9 +179,10 @@ def main() -> int:
             errors.append(url)
             continue
 
-        entry = to_plugin_entry(metadata)
+        version_tags = fetch_repo_tags(owner, repo, token)
+        entry = to_plugin_entry(metadata, version_tags)
         plugins.append(entry)
-        print(f"  OK    {entry['full_name']}  ({entry['slug']})")
+        print(f"  OK    {entry['full_name']}  ({entry['slug']}, {len(version_tags)} tag(s))")
 
     plugins.sort(key=lambda p: p["full_name"].lower())
     write_outputs(plugins)
