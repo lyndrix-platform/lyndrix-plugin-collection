@@ -90,6 +90,12 @@
       "default_branch": "main",
       "topics": [],
       "version_tags": [
+        "v0.7.1",
+        "v0.7.0",
+        "v0.6.1",
+        "v0.6.0",
+        "v0.5.5",
+        "v0.5.4",
         "v0.5.3",
         "v0.5.2",
         "v0.5.1",
@@ -119,8 +125,8 @@
       "open_issues_count": 0,
       "archived": false,
       "disabled": false,
-      "pushed_at": "2026-06-21T01:30:28Z",
-      "updated_at": "2026-06-21T01:30:32Z"
+      "pushed_at": "2026-06-21T18:30:02Z",
+      "updated_at": "2026-06-21T18:30:05Z"
     },
     {
       "slug": "plugin-meeting-bingo",
@@ -155,6 +161,7 @@
       "default_branch": "main",
       "topics": [],
       "version_tags": [
+        "v0.0.7",
         "v0.0.6",
         "0.0.6",
         "v0.0.5",
@@ -169,8 +176,8 @@
       "open_issues_count": 0,
       "archived": false,
       "disabled": false,
-      "pushed_at": "2026-06-21T00:07:22Z",
-      "updated_at": "2026-06-21T00:07:26Z"
+      "pushed_at": "2026-06-21T22:25:15Z",
+      "updated_at": "2026-06-21T22:25:17Z"
     },
     {
       "slug": "plugin-server-manager",
