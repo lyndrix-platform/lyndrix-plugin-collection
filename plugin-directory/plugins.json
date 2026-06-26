@@ -40,6 +40,7 @@
       "default_branch": "main",
       "topics": [],
       "version_tags": [
+        "v0.0.7",
         "v0.0.6",
         "v0.0.5",
         "0.0.5",
@@ -52,11 +53,11 @@
       ],
       "stargazers_count": 0,
       "forks_count": 0,
-      "open_issues_count": 0,
+      "open_issues_count": 1,
       "archived": false,
       "disabled": false,
-      "pushed_at": "2026-06-23T11:15:28Z",
-      "updated_at": "2026-06-21T00:06:58Z"
+      "pushed_at": "2026-06-25T09:25:11Z",
+      "updated_at": "2026-06-25T09:23:39Z"
     },
     {
       "slug": "plugin-external-services",
@@ -90,6 +91,10 @@
       "default_branch": "main",
       "topics": [],
       "version_tags": [
+        "v0.7.5",
+        "v0.7.4",
+        "v0.7.3",
+        "v0.7.2",
         "v0.7.1",
         "v0.7.0",
         "v0.6.1",
@@ -122,11 +127,11 @@
       ],
       "stargazers_count": 0,
       "forks_count": 0,
-      "open_issues_count": 0,
+      "open_issues_count": 1,
       "archived": false,
       "disabled": false,
-      "pushed_at": "2026-06-23T16:32:29Z",
-      "updated_at": "2026-06-21T18:30:05Z"
+      "pushed_at": "2026-06-26T00:16:49Z",
+      "updated_at": "2026-06-26T00:16:29Z"
     },
     {
       "slug": "plugin-meeting-bingo",
@@ -189,6 +194,7 @@
       "default_branch": "main",
       "topics": [],
       "version_tags": [
+        "v0.0.9",
         "v0.0.8",
         "0.0.8",
         "v0.0.7",
@@ -199,11 +205,11 @@
       ],
       "stargazers_count": 0,
       "forks_count": 0,
-      "open_issues_count": 0,
+      "open_issues_count": 1,
       "archived": false,
       "disabled": false,
-      "pushed_at": "2026-06-23T22:15:25Z",
-      "updated_at": "2026-06-21T00:20:01Z"
+      "pushed_at": "2026-06-25T09:25:17Z",
+      "updated_at": "2026-06-25T09:23:55Z"
     }
   ]
 }
