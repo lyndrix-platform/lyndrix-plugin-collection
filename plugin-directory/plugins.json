@@ -74,6 +74,7 @@
       "default_branch": "main",
       "topics": [],
       "version_tags": [
+        "v0.2.0",
         "v0.1.2",
         "v0.1.1",
         "0.1.1",
@@ -84,8 +85,8 @@
       "open_issues_count": 0,
       "archived": false,
       "disabled": false,
-      "pushed_at": "2026-06-26T12:50:19Z",
-      "updated_at": "2026-06-26T12:50:21Z"
+      "pushed_at": "2026-06-27T08:59:10Z",
+      "updated_at": "2026-06-27T08:59:12Z"
     },
     {
       "slug": "plugin-iac-orchestrator",
@@ -97,6 +98,7 @@
       "default_branch": "main",
       "topics": [],
       "version_tags": [
+        "v0.9.0",
         "v0.8.1",
         "v0.8.0",
         "v0.7.5",
@@ -138,8 +140,8 @@
       "open_issues_count": 1,
       "archived": false,
       "disabled": false,
-      "pushed_at": "2026-06-26T20:19:45Z",
-      "updated_at": "2026-06-26T20:19:48Z"
+      "pushed_at": "2026-06-27T08:59:13Z",
+      "updated_at": "2026-06-27T08:59:15Z"
     },
     {
       "slug": "plugin-meeting-bingo",
