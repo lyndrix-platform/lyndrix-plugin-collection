@@ -124,6 +124,8 @@
       "default_branch": "main",
       "topics": [],
       "version_tags": [
+        "v1.1.2",
+        "v1.1.1",
         "v1.1.0",
         "1.1.0",
         "v1.0.0",
@@ -182,8 +184,8 @@
       "open_issues_count": 1,
       "archived": false,
       "disabled": false,
-      "pushed_at": "2026-07-06T01:20:24Z",
-      "updated_at": "2026-07-06T01:18:03Z"
+      "pushed_at": "2026-08-03T01:50:06Z",
+      "updated_at": "2026-08-03T01:50:08Z"
     },
     {
       "slug": "plugin-meeting-bingo",
