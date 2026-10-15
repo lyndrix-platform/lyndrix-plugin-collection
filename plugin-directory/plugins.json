@@ -1,6 +1,6 @@
 {
   "slug_prefix": "lyndrix-",
-  "plugin_count": 7,
+  "plugin_count": 9,
   "plugins": [
     {
       "slug": "plugin-discord-notifier",
@@ -84,6 +84,27 @@
       "updated_at": "2026-07-06T01:17:56Z"
     },
     {
+      "slug": "plugin-entity-registry",
+      "name": "lyndrix-plugin-entity-registry",
+      "full_name": "lyndrix-platform/lyndrix-plugin-entity-registry",
+      "description": "Lyndrix Entity Registry plugin — one stable UUID (CI id) per host, hypervisor, service and record; reconciles identities across plugins, never auto-merges",
+      "html_url": "https://github.com/lyndrix-platform/lyndrix-plugin-entity-registry",
+      "clone_url": "https://github.com/lyndrix-platform/lyndrix-plugin-entity-registry.git",
+      "default_branch": "main",
+      "topics": [],
+      "version_tags": [
+        "v0.1.0",
+        "0.1.0"
+      ],
+      "stargazers_count": 0,
+      "forks_count": 0,
+      "open_issues_count": 0,
+      "archived": false,
+      "disabled": false,
+      "pushed_at": "2026-10-15T11:26:38Z",
+      "updated_at": "2026-10-15T11:26:38Z"
+    },
+    {
       "slug": "plugin-external-services",
       "name": "lyndrix-plugin-external-services",
       "full_name": "lyndrix-platform/lyndrix-plugin-external-services",
@@ -124,6 +145,10 @@
       "default_branch": "main",
       "topics": [],
       "version_tags": [
+        "v1.4.0",
+        "1.4.0",
+        "v1.3.0",
+        "1.3.0",
         "v1.1.2",
         "v1.1.1",
         "v1.1.0",
@@ -184,8 +209,29 @@
       "open_issues_count": 1,
       "archived": false,
       "disabled": false,
-      "pushed_at": "2026-08-03T01:50:06Z",
-      "updated_at": "2026-08-03T01:50:08Z"
+      "pushed_at": "2026-10-15T11:16:03Z",
+      "updated_at": "2026-10-15T11:16:05Z"
+    },
+    {
+      "slug": "plugin-itsm",
+      "name": "lyndrix-plugin-itsm",
+      "full_name": "lyndrix-platform/lyndrix-plugin-itsm",
+      "description": "Lyndrix ITSM plugin — incident/change/problem/request/task engine with a YAML process catalog, native suite today, connector seam for BMC Helix/ServiceNow",
+      "html_url": "https://github.com/lyndrix-platform/lyndrix-plugin-itsm",
+      "clone_url": "https://github.com/lyndrix-platform/lyndrix-plugin-itsm.git",
+      "default_branch": "main",
+      "topics": [],
+      "version_tags": [
+        "v0.1.0",
+        "0.1.0"
+      ],
+      "stargazers_count": 0,
+      "forks_count": 0,
+      "open_issues_count": 0,
+      "archived": false,
+      "disabled": false,
+      "pushed_at": "2026-10-15T11:26:35Z",
+      "updated_at": "2026-10-15T11:26:32Z"
     },
     {
       "slug": "plugin-meeting-bingo",
@@ -235,6 +281,8 @@
       "default_branch": "main",
       "topics": [],
       "version_tags": [
+        "v1.4.0",
+        "1.4.0",
         "v1.1.0",
         "1.1.0",
         "v1.0.0",
@@ -260,8 +308,8 @@
       "open_issues_count": 1,
       "archived": false,
       "disabled": false,
-      "pushed_at": "2026-07-06T01:18:08Z",
-      "updated_at": "2026-07-06T01:18:10Z"
+      "pushed_at": "2026-10-14T17:34:45Z",
+      "updated_at": "2026-10-14T17:34:46Z"
     },
     {
       "slug": "plugin-server-manager",
@@ -273,6 +321,8 @@
       "default_branch": "main",
       "topics": [],
       "version_tags": [
+        "v1.2.0",
+        "1.2.0",
         "v1.1.0",
         "1.1.0",
         "v1.0.0",
@@ -298,8 +348,8 @@
       "open_issues_count": 1,
       "archived": false,
       "disabled": false,
-      "pushed_at": "2026-07-06T01:18:11Z",
-      "updated_at": "2026-07-06T01:18:14Z"
+      "pushed_at": "2026-10-14T17:34:59Z",
+      "updated_at": "2026-10-14T17:35:00Z"
     }
   ]
 }
