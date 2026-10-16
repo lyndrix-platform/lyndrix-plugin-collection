@@ -7,3 +7,4 @@ https://github.com/lyndrix-platform/lyndrix-plugin-external-services
 https://github.com/lyndrix-platform/lyndrix-plugin-server-manager
 https://github.com/lyndrix-platform/lyndrix-plugin-entity-registry
 https://github.com/lyndrix-platform/lyndrix-plugin-itsm
+https://github.com/lyndrix-platform/lyndrix-plugin-ai-assistant
