@@ -12,6 +12,8 @@
       "default_branch": "main",
       "topics": [],
       "version_tags": [
+        "v1.2.0",
+        "1.2.0",
         "v1.1.1",
         "1.1.1",
         "v1.1.0",
@@ -39,7 +41,7 @@
       "open_issues_count": 0,
       "archived": false,
       "disabled": false,
-      "pushed_at": "2026-07-06T02:10:01Z",
+      "pushed_at": "2026-10-15T13:22:17Z",
       "updated_at": "2026-07-06T02:10:03Z"
     },
     {
@@ -52,6 +54,8 @@
       "default_branch": "main",
       "topics": [],
       "version_tags": [
+        "v1.2.0",
+        "1.2.0",
         "v1.1.0",
         "1.1.0",
         "v1.0.0",
@@ -80,7 +84,7 @@
       "open_issues_count": 1,
       "archived": false,
       "disabled": false,
-      "pushed_at": "2026-07-06T01:17:54Z",
+      "pushed_at": "2026-10-15T13:24:19Z",
       "updated_at": "2026-07-06T01:17:56Z"
     },
     {
@@ -93,6 +97,8 @@
       "default_branch": "main",
       "topics": [],
       "version_tags": [
+        "v0.2.0",
+        "0.2.0",
         "v0.1.0",
         "0.1.0"
       ],
@@ -101,8 +107,8 @@
       "open_issues_count": 0,
       "archived": false,
       "disabled": false,
-      "pushed_at": "2026-10-15T11:26:38Z",
-      "updated_at": "2026-10-15T11:26:38Z"
+      "pushed_at": "2026-10-15T13:05:09Z",
+      "updated_at": "2026-10-15T13:05:12Z"
     },
     {
       "slug": "plugin-external-services",
@@ -114,6 +120,12 @@
       "default_branch": "main",
       "topics": [],
       "version_tags": [
+        "v1.4.0",
+        "1.4.0",
+        "v1.3.0",
+        "1.3.0",
+        "v1.2.0",
+        "1.2.0",
         "v1.1.0",
         "1.1.0",
         "v1.0.0",
@@ -132,7 +144,7 @@
       "open_issues_count": 0,
       "archived": false,
       "disabled": false,
-      "pushed_at": "2026-07-06T01:17:57Z",
+      "pushed_at": "2026-10-16T00:18:47Z",
       "updated_at": "2026-07-06T01:17:59Z"
     },
     {
@@ -145,6 +157,12 @@
       "default_branch": "main",
       "topics": [],
       "version_tags": [
+        "v1.4.3",
+        "1.4.3",
+        "v1.4.2",
+        "1.4.2",
+        "v1.4.1",
+        "1.4.1",
         "v1.4.0",
         "1.4.0",
         "v1.3.0",
@@ -209,8 +227,8 @@
       "open_issues_count": 1,
       "archived": false,
       "disabled": false,
-      "pushed_at": "2026-10-15T11:16:03Z",
-      "updated_at": "2026-10-15T11:16:05Z"
+      "pushed_at": "2026-10-16T02:03:32Z",
+      "updated_at": "2026-10-16T02:03:36Z"
     },
     {
       "slug": "plugin-itsm",
@@ -222,6 +240,8 @@
       "default_branch": "main",
       "topics": [],
       "version_tags": [
+        "v0.2.0",
+        "0.2.0",
         "v0.1.0",
         "0.1.0"
       ],
@@ -230,8 +250,8 @@
       "open_issues_count": 0,
       "archived": false,
       "disabled": false,
-      "pushed_at": "2026-10-15T11:26:35Z",
-      "updated_at": "2026-10-15T11:26:32Z"
+      "pushed_at": "2026-10-15T13:05:13Z",
+      "updated_at": "2026-10-15T13:05:16Z"
     },
     {
       "slug": "plugin-meeting-bingo",
@@ -243,6 +263,8 @@
       "default_branch": "main",
       "topics": [],
       "version_tags": [
+        "v1.2.0",
+        "1.2.0",
         "v1.1.0",
         "1.1.0",
         "v1.0.0",
@@ -268,7 +290,7 @@
       "open_issues_count": 1,
       "archived": false,
       "disabled": false,
-      "pushed_at": "2026-07-06T01:18:04Z",
+      "pushed_at": "2026-10-15T13:22:20Z",
       "updated_at": "2026-07-06T01:18:07Z"
     },
     {
@@ -281,6 +303,14 @@
       "default_branch": "main",
       "topics": [],
       "version_tags": [
+        "v1.6.2",
+        "1.6.2",
+        "v1.6.1",
+        "1.6.1",
+        "v1.6.0",
+        "1.6.0",
+        "v1.5.0",
+        "1.5.0",
         "v1.4.0",
         "1.4.0",
         "v1.1.0",
@@ -308,8 +338,8 @@
       "open_issues_count": 1,
       "archived": false,
       "disabled": false,
-      "pushed_at": "2026-10-14T17:34:45Z",
-      "updated_at": "2026-10-14T17:34:46Z"
+      "pushed_at": "2026-10-16T01:53:57Z",
+      "updated_at": "2026-10-16T01:54:00Z"
     },
     {
       "slug": "plugin-server-manager",
@@ -321,6 +351,8 @@
       "default_branch": "main",
       "topics": [],
       "version_tags": [
+        "v1.3.0",
+        "1.3.0",
         "v1.2.0",
         "1.2.0",
         "v1.1.0",
@@ -348,8 +380,8 @@
       "open_issues_count": 1,
       "archived": false,
       "disabled": false,
-      "pushed_at": "2026-10-14T17:34:59Z",
-      "updated_at": "2026-10-14T17:35:00Z"
+      "pushed_at": "2026-10-15T13:01:27Z",
+      "updated_at": "2026-10-15T13:01:30Z"
     }
   ]
 }
