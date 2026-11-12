@@ -196,6 +196,8 @@
       "default_branch": "main",
       "topics": [],
       "version_tags": [
+        "v1.6.1",
+        "1.6.1",
         "v1.6.0",
         "1.6.0",
         "v1.5.7",
@@ -281,11 +283,11 @@
       ],
       "stargazers_count": 0,
       "forks_count": 0,
-      "open_issues_count": 2,
+      "open_issues_count": 1,
       "archived": false,
       "disabled": false,
-      "pushed_at": "2026-11-09T21:45:11Z",
-      "updated_at": "2026-11-09T21:45:17Z"
+      "pushed_at": "2026-11-11T12:11:50Z",
+      "updated_at": "2026-11-11T13:11:46Z"
     },
     {
       "slug": "plugin-itsm",
