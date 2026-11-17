@@ -202,6 +202,9 @@
       "default_branch": "main",
       "topics": [],
       "version_tags": [
+        "v1.8.0",
+        "v1.7.1",
+        "v1.7.0",
         "v1.6.1",
         "1.6.1",
         "v1.6.0",
@@ -289,10 +292,10 @@
       ],
       "stargazers_count": 0,
       "forks_count": 0,
-      "open_issues_count": 2,
+      "open_issues_count": 0,
       "archived": false,
       "disabled": false,
-      "pushed_at": "2026-11-16T08:08:14Z",
+      "pushed_at": "2026-11-16T18:20:24Z",
       "updated_at": "2026-11-11T13:11:46Z"
     },
     {
